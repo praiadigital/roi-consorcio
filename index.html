@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Consórcio — consórcio vs financiamento | Praia Digital</title>
+<meta name="description" content="Simule consórcio imobiliário com lance embutido e compare o custo total com financiamento bancário.">
+<link rel="canonical" href="https://praia.digital/roi-consorcio/">
+<meta name="robots" content="index, follow">
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif}
+body{margin:0;background:#1e1b4b;color:#e0e7ff;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:40px 20px}
+.card{background:#312e81;border:1px solid #6366f1;border-radius:16px;padding:24px;margin-top:20px}
+input{width:100%;padding:10px;border-radius:10px;border:1px solid #818cf8;background:#1e1b4b;color:#e0e7ff;margin-top:6px;box-sizing:border-box}
+button{background:#818cf8;color:#1e1b4b;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;margin-top:14px}
+label{font-size:14px;font-weight:600;margin-top:10px;display:block}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:600px){.vs{grid-template-columns:1fr}}
+.col{background:rgba(255,255,255,.06);border-radius:12px;padding:16px}
+.col .v{font-size:22px;font-weight:800;color:#a5b4fc}
+.linha{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;border-bottom:1px dashed #6366f1}
+.btn{display:inline-block;margin-top:16px;padding:12px 18px;border-radius:12px;background:#0ea5e9;color:#fff;text-decoration:none;font-weight:700}
+small{opacity:.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🤝 ROI Consórcio</h1>
+  <p>Consórcio ou financiamento? Compare o custo total para comprar seu imóvel no litoral.</p>
+  <div class="card">
+    <label>Valor do imóvel (R$)</label><input id="v" type="number" value="500000">
+    <label>Prazo (meses)</label><input id="m" type="number" value="180">
+    <label>Taxa de administração do consórcio (% total)</label><input id="adm" type="number" value="18">
+    <label>Taxa de juros do financiamento (% a.a.)</label><input id="j" type="number" value="11">
+    <button onclick="calc()">Comparar</button>
+    <div class="vs" id="vs" style="display:none">
+      <div class="col"><h3>🤝 Consórcio</h3><div class="v" id="vc"></div><div id="dc"></div></div>
+      <div class="col"><h3>🏦 Financiamento</h3><div class="v" id="vf"></div><div id="df"></div></div>
+    </div>
+    <p id="rec"></p>
+  </div>
+  <small>Simulação simplificada — consórcio tem fundo de reserva e seguro; financiamento tem CET variável.</small><br>
+  <a class="btn" href="https://praiadigital.github.io/simulador-credito/">Simulador de Crédito</a>
+  <a class="btn" href="https://praiadigital.github.io/calculadoras/">Calculadoras</a>
+  <a class="btn" href="https://praiadigital.github.io/checklist-compra/">Checklist de Compra</a>
+</div>
+<script>
+function fmt(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});}
+function calc(){
+  const v=+document.getElementById('v').value,m=+document.getElementById('m').value,adm=+document.getElementById('adm').value/100,j=+document.getElementById('j').value/100/12;
+  const totalCons=v*(1+adm);
+  const parcCons=totalCons/m;
+  const parcFin=v*j/(1-Math.pow(1+j,-m));
+  const totalFin=parcFin*m;
+  document.getElementById('vs').style.display='grid';
+  document.getElementById('vc').textContent=fmt(totalCons);
+  document.getElementById('vf').textContent=fmt(totalFin);
+  document.getElementById('dc').innerHTML='<div class="linha"><span>Parcela</span><b>'+fmt(parcCons)+'</b></div><div class="linha"><span>Juros</span><b>0%</b></div><div class="linha"><span>Contemplação</span><b>sorteio/lance</b></div>';
+  document.getElementById('df').innerHTML='<div class="linha"><span>Parcela</span><b>'+fmt(parcFin)+'</b></div><div class="linha"><span>Juros pagos</span><b>'+fmt(totalFin-v)+'</b></div><div class="linha"><span>Contemplação</span><b>imediata</b></div>';
+  const diff=totalFin-totalCons;
+  document.getElementById('rec').innerHTML=diff>0
+    ?'💡 <strong>Consórcio economiza '+fmt(diff)+'</strong> — ideal se você puder esperar a contemplação ou usar lance embutido (FGTS/lance próprio).'
+    :'💡 <strong>Financiamento sai mais barato</strong> no prazo escolhido — e a contemplação é imediata.';
+}
+</script>
+<hr style="margin:40px 0 20px;border:none;border-top:1px solid #6366f1">
+<nav style="font-size:.95em;text-align:center;padding:0 16px 32px;color:#a5b4fc">
+<strong>Rede Praia Digital:</strong><br>
+<a style="color:#a5b4fc" href="https://praia.digital/">Praia Digital</a> ·
+<a style="color:#a5b4fc" href="https://praiadigital.github.io/apps/">Todos os apps</a> ·
+<a style="color:#a5b4fc" href="https://praiadigital.github.io/simulador-credito/">Simulador de Crédito</a> ·
+<a style="color:#a5b4fc" href="https://praiadigital.github.io/preco-justo/">Preço Justo</a> ·
+<a style="color:#a5b4fc" href="https://praiadigital.github.io/checklist-compra/">Checklist de Compra</a> ·
+<a style="color:#a5b4fc" href="https://praiadigital.github.io/score-investidor/">Score do Investidor</a>
+</nav>
+</body>
+</html>
